@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التيسير للمنظفات - الفخامة والتكامل</title>
+  <style>
+    /* ==================== 1. Variables & Base Setup ==================== */
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151c2c;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #0284c7;
+      --primary-glow: #38bdf8;
+      --accent: #06b6d4;
+      --border: #1e293b;
+      --shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+      --danger: #ef4444;
+      --success: #10b981;
+      --badge-bg: #f59e0b;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #0284c7;
+      --primary-glow: #0284c7;
+      --accent: #22d3ee;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.2s;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding-top: 80px;
+      overflow-x: hidden;
+    }
+
+    /* ==================== 2. Cinematic Epic Intro ==================== */
+    #epic-intro {
+      position: fixed;
+      inset: 0;
+      background: #030712;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      overflow: hidden;
+      animation: finishIntro 0.6s cubic-bezier(0.7, 0, 0.84, 0) forwards 3.2s;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(0, 0, 0, 0) 70%);
+      animation: floatUp infinite linear;
+      bottom: -100px;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.8); opacity: 0; }
+      50% { opacity: 0.6; }
+      100% { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+    }
+
+    .hero-brand {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .brand-logo-text {
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: zoomInText 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.2s;
+      filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.4));
+    }
+
+    .brand-tagline {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      margin-top: 8px;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards 0.8s;
+    }
+
+    .intro-progress-bar {
+      width: 260px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      margin: 25px auto 0;
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      animation: fadeIn 0.4s ease forwards 1s;
+    }
+
+    .intro-progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #22d3ee);
+      box-shadow: 0 0 12px #38bdf8;
+      animation: fillBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 1.2s;
+    }
+
+    @keyframes zoomInText { to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes fillBar { to { width: 100%; } }
+    @keyframes finishIntro { to { opacity: 0; visibility: hidden; } }
+
+    /* ==================== 3. Header & Cart Animation ==================== */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 80px;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 8%;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--primary-glow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cart-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+      position: relative;
+    }
+
+    .cart-btn:hover { transform: scale(1.05); }
+
+    /* Cart Bounce Animation */
+    .cart-btn.bounce {
+      animation: cartShake 0.5s ease-in-out;
+    }
+
+    @keyframes cartShake {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2) rotate(-8deg); }
+      50% { transform: scale(1.2) rotate(8deg); }
+      75% { transform: scale(1.1) rotate(-4deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+
+    .cart-badge {
+      background: var(--danger);
+      color: white;
+      border-radius: 50px;
+      padding: 2px 8px;
+      font-size: 0.85rem;
+    }
+
+    /* ==================== 4. Hero Banner ==================== */
+    .hero-banner {
+      padding: 60px 8% 30px;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 50%);
+      text-align: center;
+    }
+
+    .hero-banner h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .hero-banner p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    /* ==================== 5. Sections & Grid ==================== */
+    section {
+      padding: 30px 8%;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .section-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+    .controls-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      box-shadow: var(--shadow);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+
+    .filter-btn {
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+
+    .badge-tag {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      background: var(--badge-bg);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      z-index: 10;
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: rgba(0,0,0,0.3);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .wishlist-btn.active { color: var(--danger); }
+
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      background: var(--bg);
+    }
+
+    .stock-tag { font-size: 0.75rem; color: var(--danger); font-weight: bold; margin-bottom: 8px; }
+    .product-title { font-weight: 700; margin-bottom: 6px; }
+    .product-price { font-size: 1.3rem; font-weight: 800; color: var(--primary-glow); margin-bottom: 12px; }
+
+    .btn-add {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add:hover { background: #0369a1; }
+
+    /* Custom Inquiry Box */
+    .inquiry-banner {
+      margin-top: 35px;
+      background: var(--card-bg);
+      border: 1px dashed var(--primary);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-inquire {
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ==================== 6. Live Sales Ticker ==================== */
+    #sales-ticker {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 50px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #sales-ticker.show { transform: translateY(0); opacity: 1; }
+    .ticker-dot { width: 10px; height: 10px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
+
+    /* ==================== 7. Modals ==================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .modal-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 24px;
+      max-width: 550px;
+      width: 92%;
+      box-shadow: var(--shadow);
+      position: relative;
+      border: 1px solid var(--border);
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .cart-list { overflow-y: auto; margin: 15px 0; }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .qty-controls { display: flex; align-items: center; gap: 8px; }
+    .btn-qty {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    /* ==================== 8. Footer & Integrated Map Button ==================== */
+    footer {
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      padding: 40px 8% 20px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .social-btn:hover { transform: translateY(-3px); }
+
+    .facebook-btn { background: #1877f2; box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3); }
+    .whatsapp-btn { background: #25d366; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+    .phone-btn { background: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); }
+    .map-btn { background: #ea4335; box-shadow: 0 4px 12px rgba(234, 67, 53, 0.3); }
+
+    .social-icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .copyright { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 20px; }
+    .copyright a { color: var(--primary-glow); text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Epic Cinematic Intro -->
+  <div id="epic-intro">
+    <div id="bubbles-container"></div>
+    <div class="hero-brand">
+      <div class="brand-logo-text">التيسير للمنظفات</div>
+      <div class="brand-tagline">عالم النظافة المتقدم بين يديك</div>
+      <div class="intro-progress-bar">
+        <div class="intro-progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Header -->
+  <header>
+    <div class="logo">التيسير</div>
+    <div class="header-actions">
+      <button class="btn-icon" id="themeToggle">الوضع</button>
+      <button class="btn-icon cart-btn" id="openCart">
+        <span>السلة</span>
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. Hero Banner -->
+  <div class="hero-banner">
+    <h1>جودة تفوق التوقعات لبيتك</h1>
+    <p>تصفح أقوى المنظفات والمطهرات العالمية واطلب مجموعتك عبر الواتساب فوراً.</p>
+  </div>
+
+  <!-- 4. Products Section -->
+  <section id="products">
+    <div class="section-title">🛍️ متجر المنتجات</div>
+
+    <div class="controls-bar">
+      <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن أي منتج..." oninput="handleSearch()">
+      
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
+        <button class="filter-btn" onclick="filterProducts('oxi')">شركة أوكسي (Oxi)</button>
+        <button class="filter-btn" onclick="filterProducts('persil')">برسيل (Persil)</button>
+        <button class="filter-btn" onclick="filterProducts('general')">منظفات متنوعة</button>
+      </div>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+
+    <!-- Inquiry Message Container -->
+    <div class="inquiry-banner">
+      <p style="font-weight: 600;">لم تجد المنتج الذي تبحث عنه؟ يمكنك الاستفسار عنه مباشرة!</p>
+      <a href="https://wa.me/201000000000?text=%DD8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B4%D9%8A%D8%A1%20%D8%BA%D9%8A%D8%B1%20%D9%85%D9%88%D8%AC%D9%88%D8%AF%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9" target="_blank" class="btn-inquire">
+        💬 الاستفسار عن منتج آخر عبر الواتساب
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. Cart Modal -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal-card">
+      <button class="close-btn" onclick="closeModal('cartModal')">&times;</button>
+      <h2>سلة مشترياتك</h2>
+      <div class="cart-list" id="cartItems"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; font-weight: bold; font-size: 1.2rem;">
+        <span>الإجمالي النهائي:</span>
+        <span id="cartTotal" style="color: var(--primary-glow);">0 ج.م</span>
+      </div>
+      <button class="btn-whatsapp" onclick="sendToWhatsApp()">إرسال الطلب عبر الواتساب 🚀</button>
+    </div>
+  </div>
+
+  <!-- 6. Live Sales Ticker -->
+  <div id="sales-ticker">
+    <div class="ticker-dot"></div>
+    <span id="tickerText" style="font-size: 0.9rem; font-weight: 600;">قام عميل من القاهرة بشراء مسحوق أوكسي 4 كيلو!</span>
+  </div>
+
+  <!-- 7. Footer & Social Contacts + Location Map Button -->
+  <footer>
+    <div class="social-links">
+      <!-- Facebook Button -->
+      <a href="https://facebook.com" target="_blank" class="social-btn facebook-btn">
+        <svg class="social-icon" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        صفحتنا على فيسبوك
+      </a>
+
+      <!-- WhatsApp Button -->
+      <a href="https://wa.me/201000000000" target="_blank" class="social-btn whatsapp-btn">
+        <svg class="social-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        تواصل عبر الواتساب
+      </a>
+
+      <!-- Phone Button -->
+      <a href="tel:01000000000" class="social-btn phone-btn">
+        <svg class="social-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        اتصل بنا: 01000000000
+      </a>
+
+      <!-- Google Maps Button (Replaced Section) -->
+      <a href="https://maps.google.com/?q=30.0444196,31.2357116" target="_blank" class="social-btn map-btn">
+        <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        موقعنا على الخريطة
+      </a>
+    </div>
+
+    <div class="copyright">
+      جميع الحقوق محفوظة 2026 - التيسير للمنظفات<br>
+      Developed By <a href="#" target="_blank">Basel</a>
+    </div>
+  </footer>
+
+  <!-- Script Logic -->
+  <script>
+    // Bubbles Animation
+    const container = document.getElementById('bubbles-container');
+    for (let i = 0; i < 15; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const size = Math.random() * 60 + 20;
+      b.style.width = `${size}px`;
+      b.style.height = `${size}px`;
+      b.style.left = `${Math.random() * 100}%`;
+      b.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      b.style.animationDelay = `${Math.random() * 2}s`;
+      container.appendChild(b);
+    }
+
+    const products = [
+      { id: 1, name: "مسحوق أوكسي أوتوماتيك 4 كيلو", brand: "oxi", price: 350, badge: "الأكثر مبيعاً", stock: "متبقي 3 قطع فقط!", img: "https://images.unsplash.com/photo-1585832770485-e68a5fcfad52?w=400&auto=format&fit=crop&q=60" },
+      { id: 2, name: "جل أوكسي للغسيل الأسود 2 لتر", brand: "oxi", price: 120, badge: "خصم 10%", stock: "متوفر بالمخزون", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&auto=format&fit=crop&q=60" },
+      { id: 3, name: "مسحوق أوكسي عادي 1 كيلو", brand: "oxi", price: 50, badge: "", stock: "متوفر", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=60" },
+      { id: 4, name: "برسيل جل أوتوماتيك 3 لتر", brand: "persil", price: 280, badge: "مميز", stock: "متبقي قطعتين!", img: "https://images.unsplash.com/photo-1585832770485-e68a5fcfad52?w=400&auto=format&fit=crop&q=60" },
+      { id: 5, name: "برسيل كبسولات غسيل 15 كبسولة", brand: "persil", price: 150, badge: "", stock: "متوفر", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&auto=format&fit=crop&q=60" },
+      { id: 6, name: "منظف وملمع أطباق 1 لتر", brand: "general", price: 35, badge: "", stock: "متوفر", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=60" }
+    ];
+
+    // LocalStorage Integration
+    let cart = JSON.parse(localStorage.getItem('taysir_cart')) || [];
+    let wishlist = [];
+    let currentFilter = 'all';
+
+    function renderProducts(items) {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+
+      items.forEach(p => {
+        const isWish = wishlist.includes(p.id);
+        grid.innerHTML += `
+          <div class="product-card">
+            ${p.badge ? `<div class="badge-tag">${p.badge}</div>` : ''}
+            <button class="wishlist-btn ${isWish ? 'active' : ''}" onclick="toggleWishlist(${p.id})">♥</button>
+            <img src="${p.img}" class="product-image" alt="${p.name}">
+            <div>
+              <div class="stock-tag">${p.stock}</div>
+              <div class="product-title">${p.name}</div>
+            </div>
+            <div>
+              <div class="product-price">${p.price} ج.م</div>
+              <button class="btn-add" onclick="addToCart(${p.id})">إضافة للسلة 🛒</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function toggleWishlist(id) {
+      if (wishlist.includes(id)) wishlist = wishlist.filter(item => item !== id);
+      else wishlist.push(id);
+      applyFilters();
+    }
+
+    function filterProducts(brand) {
+      currentFilter = brand;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      applyFilters();
+    }
+
+    function handleSearch() { applyFilters(); }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = currentFilter === 'all' ? products : products.filter(p => p.brand === currentFilter);
+      if (query) filtered = filtered.filter(p => p.name.toLowerCase().includes(query));
+      renderProducts(filtered);
+    }
+
+    // Add To Cart + Cart Animation Trigger
+    function addToCart(id) {
+      const p = products.find(prod => prod.id === id);
+      const cartItem = cart.find(item => item.id === id);
+      if (cartItem) cartItem.qty++;
+      else cart.push({ ...p, qty: 1 });
+      
+      saveCart();
+      updateCartUI();
+      triggerCartAnimation();
+    }
+
+    function triggerCartAnimation() {
+      const cartBtn = document.getElementById('openCart');
+      cartBtn.classList.remove('bounce');
+      void cartBtn.offsetWidth; // Trigger reflow
+      cartBtn.classList.add('bounce');
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      }
+      saveCart();
+      updateCartUI();
+    }
+
+    function saveCart() {
+      localStorage.setItem('taysir_cart', JSON.stringify(cart));
+    }
+
+    function updateCartUI() {
+      document.getElementById('cartCount').innerText = cart.reduce((a, b) => a + b.qty, 0);
+      const container = document.getElementById('cartItems');
+      container.innerHTML = '';
+
+      let total = 0;
+      cart.forEach(item => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <div style="font-weight:bold;">${item.name}</div>
+              <div style="font-size:0.85rem; color:var(--muted);">${item.price} ج.م</div>
+            </div>
+            <div class="qty-controls">
+              <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
+              <span>${item.qty}</span>
+              <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('cartTotal').innerText = `${total} ج.م`;
+    }
+
+    function sendToWhatsApp() {
+      if (cart.length === 0) return alert("السلة فارغة!");
+      let msg = "🧾 *طلب جديد - التيسير للمنظفات*\n\n";
+      let total = 0;
+      cart.forEach((item, i) => {
+        const sub = item.price * item.qty;
+        total += sub;
+        msg += `${i + 1}. ${item.name} × ${item.qty} = ${sub} ج.م\n`;
+      });
+      msg += `\n*الإجمالي الكلي:* ${total} ج.م`;
+      window.open(`https://wa.me/201000000000?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Live Ticker
+    const tickerMessages = [
+      "قام عميل من القاهرة بشراء مسحوق أوكسي 4 كيلو!",
+      "تم طلب عرض برسيل جل للغسيل قبل قليل 📦",
+      "عميل جديد انضم واستفاد من خصم السلة 🎉"
+    ];
+    let tickerIdx = 0;
+    setInterval(() => {
+      const ticker = document.getElementById('sales-ticker');
+      document.getElementById('tickerText').innerText = tickerMessages[tickerIdx];
+      ticker.classList.add('show');
+      setTimeout(() => ticker.classList.remove('show'), 3500);
+      tickerIdx = (tickerIdx + 1) % tickerMessages.length;
+    }, 7000);
+
+    // Dark/Light Theme with LocalStorage
+    const savedTheme = localStorage.getItem('taysir_theme');
+    if (savedTheme) {
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const body = document.body;
+      const current = body.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', next);
+      localStorage.setItem('taysir_theme', next);
+    });
+
+    document.getElementById('openCart').addEventListener('click', () => {
+      document.getElementById('cartModal').classList.add('active');
+    });
+
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    // Close Modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('cartModal');
+      if (event.target === modal) {
+        closeModal('cartModal');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { 
+      renderProducts(products); 
+      updateCartUI();
+    });
+  </script>
+</body>
+</html>
