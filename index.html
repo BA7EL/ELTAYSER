@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>التيسير للمنظفات -</title>
+  <title>التيسير للمنظفات</title>
   <style>
     /* ==================== 1. Variables & Base Setup ==================== */
     :root {
@@ -128,7 +128,7 @@
     @keyframes fillBar { to { width: 100%; } }
     @keyframes finishIntro { to { opacity: 0; visibility: hidden; } }
 
-    /* ==================== 3. Header & Cart Animation ==================== */
+    /* ==================== 3. Header ==================== */
     header {
       position: fixed;
       top: 0;
@@ -183,7 +183,6 @@
 
     .cart-btn:hover { transform: scale(1.05); }
 
-    /* Cart Bounce Animation */
     .cart-btn.bounce {
       animation: cartShake 0.5s ease-in-out;
     }
@@ -253,6 +252,35 @@
       box-shadow: var(--shadow);
     }
 
+    /* الأقسام الرئيسية */
+    .category-bar {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cat-btn {
+      padding: 12px 26px;
+      border-radius: 50px;
+      border: 2px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .cat-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+    }
+
+    /* الفلاتر الفرعية */
     .filter-bar {
       display: flex;
       gap: 10px;
@@ -261,12 +289,13 @@
     }
 
     .filter-btn {
-      padding: 10px 22px;
+      padding: 8px 18px;
       border-radius: 50px;
       border: 1px solid var(--border);
       background: var(--card-bg);
-      color: var(--text);
+      color: var(--muted);
       font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -338,8 +367,7 @@
       background: var(--bg);
     }
 
-    .stock-tag { font-size: 0.75rem; color: var(--danger); font-weight: bold; margin-bottom: 8px; }
-    .product-title { font-weight: 700; margin-bottom: 6px; }
+    .product-title { font-weight: 700; margin-bottom: 6px; min-height: 48px; }
     .product-price { font-size: 1.3rem; font-weight: 800; color: var(--primary-glow); margin-bottom: 12px; }
 
     .btn-add {
@@ -355,7 +383,14 @@
 
     .btn-add:hover { background: #0369a1; }
 
-    /* Custom Inquiry Box */
+    .empty-state {
+      text-align: center;
+      padding: 50px;
+      color: var(--muted);
+      font-size: 1.2rem;
+      grid-column: 1 / -1;
+    }
+
     .inquiry-banner {
       margin-top: 35px;
       background: var(--card-bg);
@@ -383,7 +418,7 @@
       gap: 8px;
     }
 
-    /* ==================== 6. Live Sales Ticker ==================== */
+    /* ==================== 6. Live Ticker ==================== */
     #sales-ticker {
       position: fixed;
       bottom: 25px;
@@ -480,7 +515,7 @@
       margin-top: 15px;
     }
 
-    /* ==================== 8. Footer & Integrated Map Button ==================== */
+    /* ==================== 8. Footer ==================== */
     footer {
       background: var(--card-bg);
       border-top: 1px solid var(--border);
@@ -517,19 +552,14 @@
     .phone-btn { background: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); }
     .map-btn { background: #ea4335; box-shadow: 0 4px 12px rgba(234, 67, 53, 0.3); }
 
-    .social-icon {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
+    .social-icon { width: 20px; height: 20px; fill: currentColor; }
     .copyright { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 20px; }
     .copyright a { color: var(--primary-glow); text-decoration: none; font-weight: 700; }
   </style>
 </head>
 <body>
 
-  <!-- 1. Epic Cinematic Intro -->
+  <!-- Intro -->
   <div id="epic-intro">
     <div id="bubbles-container"></div>
     <div class="hero-brand">
@@ -541,7 +571,7 @@
     </div>
   </div>
 
-  <!-- 2. Header -->
+  <!-- Header -->
   <header>
     <div class="logo">التيسير</div>
     <div class="header-actions">
@@ -553,39 +583,42 @@
     </div>
   </header>
 
-  <!-- 3. Hero Banner -->
+  <!-- Hero Banner -->
   <div class="hero-banner">
     <h1>جودة تفوق التوقعات لبيتك</h1>
     <p>تصفح أقوى المنظفات والمطهرات العالمية واطلب مجموعتك عبر الواتساب فوراً</p>
   </div>
 
-  <!-- 4. Products Section -->
+  <!-- Main Section -->
   <section id="products">
     <div class="section-title">🛍️ متجر المنتجات</div>
 
     <div class="controls-bar">
       <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن أي منتج..." oninput="handleSearch()">
       
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
-        <button class="filter-btn" onclick="filterProducts('oxi')">شركة أوكسي (Oxi)</button>
-        <button class="filter-btn" onclick="filterProducts('persil')">برسيل (Persil)</button>
-        <button class="filter-btn" onclick="filterProducts('general')">منظفات متنوعة</button>
+      <!-- الأقسام الرئيسية -->
+      <div class="category-bar">
+        <button class="cat-btn active" onclick="switchCategory('powders', this)">🧼 المساحيق</button>
+        <button class="cat-btn" onclick="switchCategory('liquid_soaps', this)">🧴 الصابون السائل والمطبخ</button>
+        <button class="cat-btn" onclick="switchCategory('personal_care', this)">✨ العناية الشخصية والشعر</button>
+        <button class="cat-btn" onclick="switchCategory('home_care', this)">🏠 المنظفات والمعطرات والمناديل</button>
       </div>
+
+      <!-- الفلاتر الفرعية -->
+      <div class="filter-bar" id="subFilterBar"></div>
     </div>
 
     <div class="products-grid" id="productsGrid"></div>
 
-    <!-- Inquiry Message Container -->
     <div class="inquiry-banner">
       <p style="font-weight: 600;">لم تجد المنتج الذي تبحث عنه؟ يمكنك الاستفسار عنه مباشرة!</p>
-      <a href="https://wa.me/201010928213?text=%DD8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B4%D9%8A%D8%A1%20%D8%BA%D9%8A%D8%B1%20%D9%85%D9%88%D8%AC%D9%88%D8%AF%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9" target="_blank" class="btn-inquire">
+      <a href="https://wa.me/201010928213?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%8D%20%D8%B4%D9%8A%D8%A1%20%D8%BA%D9%8A%D8%B1%20%D9%85%D9%88%D8%AC%D9%88%D8%AF%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9" target="_blank" class="btn-inquire">
         💬 الاستفسار عن منتج آخر عبر الواتساب
       </a>
     </div>
   </section>
 
-  <!-- 5. Cart Modal -->
+  <!-- Cart Modal -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-card">
       <button class="close-btn" onclick="closeModal('cartModal')">&times;</button>
@@ -599,34 +632,30 @@
     </div>
   </div>
 
-  <!-- 6. Live Sales Ticker -->
+  <!-- Live Sales Ticker -->
   <div id="sales-ticker">
     <div class="ticker-dot"></div>
-    <span id="tickerText" style="font-size: 0.9rem; font-weight: 600;">قام عميل من القاهرة بشراء مسحوق أوكسي 4 كيلو!</span>
+    <span id="tickerText" style="font-size: 0.9rem; font-weight: 600;">قام عميل من القاهرة بشراء مسحوق أوكسي!</span>
   </div>
 
-  <!-- 7. Footer & Social Contacts + Location Map Button -->
+  <!-- Footer -->
   <footer>
     <div class="social-links">
-      <!-- Facebook Button -->
       <a href="https://facebook.com" target="_blank" class="social-btn facebook-btn">
         <svg class="social-icon" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         صفحتنا على فيسبوك
       </a>
 
-      <!-- WhatsApp Button -->
       <a href="https://wa.me/201010928213" target="_blank" class="social-btn whatsapp-btn">
         <svg class="social-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
         تواصل عبر الواتساب
       </a>
 
-      <!-- Phone Button -->
       <a href="tel:01010928213" class="social-btn phone-btn">
         <svg class="social-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
         اتصل بنا: 01010928213
       </a>
 
-      <!-- Google Maps Button (Replaced Section) -->
       <a href="https://maps.google.com/?q=30.3177330,31.6937730" target="_blank" class="social-btn map-btn">
         <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         موقعنا على الخريطة
@@ -655,23 +684,205 @@
       container.appendChild(b);
     }
 
+    // Products Database - جميع المنتجات المضافة وموزعة بدقة
     const products = [
-      { id: 1, name: "Oxi مسحوق غسيل برايت ربيعي - مركز - أوتوماتيكي - 4 كجم", brand: "oxi", price: 289.76, badge: "خصم31%", stock: "متوفر", img: "Screenshot 2026-09-30 212130.png" },
-      { id: 2, name: "مسحوق غسيل برسيل اوتوماتيك برائحة اللافندر - 9 كيلوجرام", brand: "oxi", price: 120, badge: "خصم 10%", stock: "متوفر", img: "Screenshot 2026-09-30 212719.png" },
-      { id: 3, name: "اوكسى مسحوق للغسالات العاديه نسيم الربيع 1 كيلو جرام", brand: "oxi", price: 77.05, badge: "", stock: "متوفر", img: "Screenshot 2026-09-30 212340.png" },
-      { id: 4, name: "برسيل جل أوتوماتيك 3 لتر", brand: "persil", price: 280, badge: "مميز", stock: "متوفر", img: "Screenshot 2026-09-30 213203.png" },
-      { id: 5, name: "برسيل كبسولات غسيل 15 كبسولة", brand: "persil", price: 150, badge: "", stock: "متوفر", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&auto=format&fit=crop&q=60" },
-      { id: 6, name: "منظف وملمع أطباق 1 لتر", brand: "general", price: 35, badge: "", stock: "متوفر", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=60" }
+      // ================= 1. قسم المساحيق (powders) =================
+      { id: 1, category: "powders", name: "أوكسي نص كيلو", brand: "oxi", price: 45.00, badge: "", img: "images/oxi_0.5kg.jpg" },
+      { id: 2, category: "powders", name: "أوكسي كيلو", brand: "oxi", price: 80.00, badge: "", img: "images/oxi_1kg.jpg" },
+      { id: 3, category: "powders", name: "أوكسي كيلو ونص", brand: "oxi", price: 120.00, badge: "", img: "images/oxi_1.5kg.jpg" },
+      { id: 4, category: "powders", name: "أوكسي 2 كيلو", brand: "oxi", price: 150.00, badge: "", img: "images/oxi_2kg.jpg" },
+      { id: 5, category: "powders", name: "أوكسي 9 كيلو", brand: "oxi", price: 535.00, badge: "عرض مميز", img: "images/oxi_9kg.jpg" },
+      { id: 6, category: "powders", name: "إريال كيلو", brand: "ariel", price: 75.00, badge: "", img: "images/ariel_1kg.jpg" },
+      { id: 7, category: "powders", name: "إريال 2 كيلو", brand: "ariel", price: 140.00, badge: "", img: "images/ariel_2kg.jpg" },
+      { id: 8, category: "powders", name: "ليندو كيلو", brand: "lindo", price: 70.00, badge: "", img: "images/lindo_1kg.jpg" },
+      { id: 9, category: "powders", name: "ليندو 2 كيلو", brand: "lindo", price: 130.00, badge: "", img: "images/lindo_2kg.jpg" },
+      { id: 10, category: "powders", name: "ليندو 2 كيلو ونص أوتوماتيك", brand: "lindo", price: 180.00, badge: "أوتوماتيك", img: "images/lindo_2.5kg_auto.jpg" },
+      { id: 11, category: "powders", name: "باهي كيلو", brand: "bahi", price: 70.00, badge: "", img: "images/bahi_1kg.jpg" },
+      { id: 12, category: "powders", name: "باهي 2 كيلو", brand: "bahi", price: 130.00, badge: "", img: "images/bahi_2kg.jpg" },
+      { id: 13, category: "powders", name: "ليدر كيلو", brand: "leader", price: 65.00, badge: "", img: "images/leader_1kg.jpg" },
+      { id: 14, category: "powders", name: "ستار كلين 2 كيلو", brand: "starclean", price: 85.00, badge: "", img: "images/starclean_2kg.jpg" },
+
+      // ================= 2. قسم الصابون السائل والمطبخ (liquid_soaps) =================
+      { id: 15, category: "liquid_soaps", name: "زجاجة صابون بريل نص لتر", brand: "pril", price: 50.00, badge: "", img: "images/pril_0.5l.jpg" },
+      { id: 16, category: "liquid_soaps", name: "زجاجة صابون بريل لتر", brand: "pril", price: 70.00, badge: "", img: "images/pril_1l.jpg" },
+      { id: 17, category: "liquid_soaps", name: "جركن فيبا 4 لتر", brand: "feba", price: 180.00, badge: "توفير", img: "images/feba_4l.jpg" },
+      { id: 18, category: "liquid_soaps", name: "جركن وفير 4 لتر", brand: "wafeer", price: 145.00, badge: "توفير", img: "images/wafeer_4l.jpg" },
+      { id: 19, category: "liquid_soaps", name: "أوكسي صابون سائل للأطباق 1 لتر", brand: "oxi", price: 60.00, badge: "مركز", img: "images/oxi_liquid_1l.jpg" },
+      { id: 20, category: "liquid_soaps", name: "فيربال صابون سائل للأطباق 2.5 لتر", brand: "verbal", price: 65.00, badge: "", img: "images/verbal_2.5l.jpg" },
+
+      // ================= 3. قسم العناية الشخصية والشعر (personal_care) =================
+      // شاور وجل استحمام
+      { id: 21, category: "personal_care", name: "شاور فريده 1 لتر و 200 ملل", brand: "farida", price: 150.00, badge: "حجم كبير", img: "images/farida_shower_1.2l.jpg" },
+      { id: 22, category: "personal_care", name: "شاور فريده 650 ملل", brand: "farida", price: 90.00, badge: "", img: "images/farida_shower_650ml.jpg" },
+      { id: 23, category: "personal_care", name: "شاور لوكس 550 ملل", brand: "lux", price: 90.00, badge: "", img: "images/lux_shower_550ml.jpg" },
+      { id: 24, category: "personal_care", name: "شاور ماي واي 2 لتر", brand: "myway", price: 115.00, badge: "جامبو", img: "images/myway_shower_2l.jpg" },
+      { id: 25, category: "personal_care", name: "شاور براند 2 لتر", brand: "brand", price: 90.00, badge: "توفير", img: "images/brand_shower_2l.jpg" },
+      { id: 26, category: "personal_care", name: "غسول أيدي ديفا", brand: "diva", price: 55.00, badge: "", img: "images/diva_handwash.jpg" },
+
+      // شامبوهات
+      { id: 27, category: "personal_care", name: "شامبو بلو لاين", brand: "blueline", price: 85.00, badge: "", img: "images/blueline_shampoo.jpg" },
+      { id: 28, category: "personal_care", name: "شامبو صان سلك", brand: "sunsilk", price: 95.00, badge: "", img: "images/sunsilk_shampoo.jpg" },
+      { id: 29, category: "personal_care", name: "شامبو مينك", brand: "mink", price: 85.00, badge: "", img: "images/mink_shampoo.jpg" },
+      { id: 30, category: "personal_care", name: "شامبو بلوب", brand: "blob", price: 85.00, badge: "", img: "images/blob_shampoo.jpg" },
+      { id: 31, category: "personal_care", name: "شامبو دوف الكبير", brand: "dove", price: 170.00, badge: "", img: "images/dove_shampoo_large.jpg" },
+      { id: 32, category: "personal_care", name: "شامبو إيفا ريسبي وسط", brand: "eva", price: 95.00, badge: "", img: "images/eva_recipe_shampoo.jpg" },
+      { id: 33, category: "personal_care", name: "شامبو ألو إيفا وسط", brand: "eva", price: 80.00, badge: "", img: "images/alo_eva_shampoo.jpg" },
+      { id: 34, category: "personal_care", name: "شامبو سباركل وسط", brand: "sparkle", price: 85.00, badge: "", img: "images/sparkle_shampoo.jpg" },
+      { id: 35, category: "personal_care", name: "شامبو شراسة", brand: "sharasa", price: 110.00, badge: "", img: "images/sharasa_shampoo.jpg" },
+
+      // صابون صلب
+      { id: 36, category: "personal_care", name: "صابونة لوكس", brand: "lux", price: 25.00, badge: "", img: "images/lux_soap.jpg" },
+      { id: 37, category: "personal_care", name: "صابونة كاماي (قاميه)", brand: "camay", price: 25.00, badge: "", img: "images/camay_soap.jpg" },
+      { id: 38, category: "personal_care", name: "صابونة دوف", brand: "dove", price: 50.00, badge: "ترطيب", img: "images/dove_soap.jpg" },
+      { id: 39, category: "personal_care", name: "صابونة إنجلش", brand: "english", price: 20.00, badge: "", img: "images/english_soap.jpg" },
+      { id: 40, category: "personal_care", name: "صابونة رويال", brand: "royal", price: 20.00, badge: "", img: "images/royal_soap.jpg" },
+      { id: 41, category: "personal_care", name: "صابونة ريفولي", brand: "rivoli", price: 17.00, badge: "", img: "images/rivoli_soap.jpg" },
+      { id: 42, category: "personal_care", name: "صابونة سافانا", brand: "savana", price: 18.00, badge: "", img: "images/savana_soap.jpg" },
+      { id: 43, category: "personal_care", name: "صابونة أوركيد", brand: "orkide", price: 15.00, badge: "", img: "images/orkide_soap.jpg" },
+
+      // كريمات وزيوت الشعر
+      { id: 44, category: "personal_care", name: "كريم سنيور بزبدة الشيا", brand: "senior", price: 55.00, badge: "", img: "images/senior_shea.jpg" },
+      { id: 45, category: "personal_care", name: "كريم سنيور عادي", brand: "senior", price: 45.00, badge: "", img: "images/senior_regular.jpg" },
+      { id: 46, category: "personal_care", name: "كريم سنيور بخاخ", brand: "senior", price: 70.00, badge: "", img: "images/senior_spray.jpg" },
+      { id: 47, category: "personal_care", name: "كريم فيانسيه", brand: "fiancee", price: 35.00, badge: "", img: "images/fiancee_cream.jpg" },
+      { id: 48, category: "personal_care", name: "كريم فيانسيه بخاخ", brand: "fiancee", price: 65.00, badge: "", img: "images/fiancee_spray.jpg" },
+      { id: 49, category: "personal_care", name: "كريم بلو واكس صغير", brand: "bluewax", price: 35.00, badge: "", img: "images/bluewax_small.jpg" },
+      { id: 50, category: "personal_care", name: "كريم بلو واكس وسط", brand: "bluewax", price: 45.00, badge: "", img: "images/bluewax_med.jpg" },
+      { id: 51, category: "personal_care", name: "كريم فاتيكا صغير", brand: "vatika", price: 35.00, badge: "", img: "images/vatika_cream_small.jpg" },
+      { id: 52, category: "personal_care", name: "كريم فاتيكا كبير", brand: "vatika", price: 60.00, badge: "", img: "images/vatika_cream_large.jpg" },
+      { id: 53, category: "personal_care", name: "زيت دابر أملا وسط", brand: "dabur", price: 80.00, badge: "", img: "images/dabur_amla_med.jpg" },
+      { id: 54, category: "personal_care", name: "زيت دابر أملا صغير", brand: "dabur", price: 55.00, badge: "", img: "images/dabur_amla_small.jpg" },
+      { id: 55, category: "personal_care", name: "زيت أعشاب الهند صغير", brand: "indian_herbs", price: 100.00, badge: "", img: "images/indian_herbs_small.jpg" },
+      { id: 56, category: "personal_care", name: "زيت أعشاب الهند كبير", brand: "indian_herbs", price: 120.00, badge: "", img: "images/indian_herbs_large.jpg" },
+      { id: 57, category: "personal_care", name: "زيت ألو إيفا كبير", brand: "eva", price: 75.00, badge: "", img: "images/alo_eva_oil_large.jpg" },
+      { id: 58, category: "personal_care", name: "زيت ألو إيفا صغير", brand: "eva", price: 50.00, badge: "", img: "images/alo_eva_oil_small.jpg" },
+      { id: 59, category: "personal_care", name: "زيت فاتيكا كبير", brand: "vatika", price: 40.00, badge: "", img: "images/vatika_oil_large.jpg" },
+      { id: 60, category: "personal_care", name: "زيت فاتيكا صغير", brand: "vatika", price: 25.00, badge: "", img: "images/vatika_oil_small.jpg" },
+
+      // ================= 4. قسم المنظفات والمعطرات والمناديل (home_care) =================
+      { id: 61, category: "home_care", name: "جركن برسيل جل 4 لتر", brand: "persil", price: 330.00, badge: "أصلية", img: "images/persil_gel_4l.jpg" },
+      { id: 62, category: "home_care", name: "جركن معطر ملابس فريده 4 لتر", brand: "farida", price: 185.00, badge: "توفير", img: "images/farida_softener_4l.jpg" },
+      { id: 63, category: "home_care", name: "جركن معطر ملابس فريده 2 لتر", brand: "farida", price: 110.00, badge: "", img: "images/farida_softener_2l.jpg" },
+      { id: 64, category: "home_care", name: "معطر فريده جو", brand: "farida", price: 60.00, badge: "", img: "images/farida_air_freshener.jpg" },
+      { id: 65, category: "home_care", name: "معطر فريده أرضيات", brand: "farida", price: 50.00, badge: "", img: "images/farida_floor_freshener.jpg" },
+      { id: 66, category: "home_care", name: "ملمع خشب فريده", brand: "farida", price: 70.00, badge: "", img: "images/farida_wood_cleaner.jpg" },
+      { id: 67, category: "home_care", name: "سيترس الأصلي منظف متعدد الاستخدامات", brand: "cetris", price: 105.00, badge: "الأصلي", img: "images/cetris_cleaner.jpg" },
+      { id: 68, category: "home_care", name: "منظف باول 2×1", brand: "powell", price: 35.00, badge: "", img: "images/powell_2in1.jpg" },
+      { id: 69, category: "home_care", name: "منظف مستر شاهين", brand: "shaheen", price: 20.00, badge: "", img: "images/mr_shaheen.jpg" },
+      { id: 70, category: "home_care", name: "فلاش منظف وقاتل بكتيريا", brand: "flash", price: 12.00, badge: "", img: "images/flash_cleaner.jpg" },
+
+      // مناديل ورقية
+      { id: 71, category: "home_care", name: "مناديل زينة سحب", brand: "zeina", price: 30.00, badge: "", img: "images/zeina_tissues.jpg" },
+      { id: 72, category: "home_care", name: "مناديل دانتي سحب", brand: "danti", price: 30.00, badge: "", img: "images/danti_tissues.jpg" },
+      { id: 73, category: "home_care", name: "مناديل فاين سحب", brand: "fine", price: 30.00, badge: "", img: "images/fine_tissues.jpg" },
+      { id: 74, category: "home_care", name: "مناديل فاميليا سحب", brand: "familia", price: 30.00, badge: "", img: "images/familia_tissues.jpg" },
+      { id: 75, category: "home_care", name: "مناديل موفي سحب", brand: "moofy", price: 25.00, badge: "", img: "images/moofy_tissues.jpg" },
+      { id: 76, category: "home_care", name: "مناديل مطبخ 6 رول", brand: "kitchen_tissues", price: 85.00, badge: "عبوة توفير", img: "images/kitchen_rolls.jpg" }
     ];
 
-    // LocalStorage Integration
+    // الفلاتر الفرعية المخصصة لكل قسم
+    const subFiltersConfig = {
+      powders: [
+        { label: 'الكل', brand: 'all' },
+        { label: 'أوكسي (Oxi)', brand: 'oxi' },
+        { label: 'إريال (Ariel)', brand: 'ariel' },
+        { label: 'ليندو (Lindo)', brand: 'lindo' },
+        { label: 'باهي (Bahi)', brand: 'bahi' },
+        { label: 'ليدر (Leader)', brand: 'leader' },
+        { label: 'ستار كلين (Star Clean)', brand: 'starclean' }
+      ],
+      liquid_soaps: [
+        { label: 'الكل', brand: 'all' },
+        { label: 'بريل (Pril)', brand: 'pril' },
+        { label: 'فيبا (Feba)', brand: 'feba' },
+        { label: 'وفير (Wafeer)', brand: 'wafeer' },
+        { label: 'أوكسي (Oxi)', brand: 'oxi' },
+        { label: 'فيربال (Verbal)', brand: 'verbal' }
+      ],
+      personal_care: [
+        { label: 'الكل', brand: 'all' },
+        { label: 'فريده (Farida)', brand: 'farida' },
+        { label: 'لوكس (Lux)', brand: 'lux' },
+        { label: 'دوف (Dove)', brand: 'dove' },
+        { label: 'إيفا (Eva)', brand: 'eva' },
+        { label: 'فاتيكا (Vatika)', brand: 'vatika' },
+        { label: 'دابر أملا (Dabur)', brand: 'dabur' },
+        { label: 'سنيور (Senior)', brand: 'senior' },
+        { label: 'فيانسيه (Fiancee)', brand: 'fiancee' }
+      ],
+      home_care: [
+        { label: 'الكل', brand: 'all' },
+        { label: 'فريده (Farida)', brand: 'farida' },
+        { label: 'برسيل (Persil)', brand: 'persil' },
+        { label: 'سيترس (Cetris)', brand: 'cetris' },
+        { label: 'مناديل (Tissues)', brand: 'fine' }
+      ]
+    };
+
+    let activeCategory = 'powders';
+    let activeBrand = 'all';
     let cart = JSON.parse(localStorage.getItem('taysir_cart')) || [];
     let wishlist = [];
-    let currentFilter = 'all';
+
+    function switchCategory(catKey, btnElement) {
+      activeCategory = catKey;
+      activeBrand = 'all';
+
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      if(btnElement) btnElement.classList.add('active');
+
+      renderSubFilters();
+      applyFilters();
+    }
+
+    function renderSubFilters() {
+      const container = document.getElementById('subFilterBar');
+      container.innerHTML = '';
+
+      const filters = subFiltersConfig[activeCategory] || [{ label: 'الكل', brand: 'all' }];
+
+      filters.forEach(f => {
+        const btn = document.createElement('button');
+        btn.className = `filter-btn ${f.brand === activeBrand ? 'active' : ''}`;
+        btn.innerText = f.label;
+        btn.onclick = () => filterBrand(f.brand, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function filterBrand(brand, btnElement) {
+      activeBrand = brand;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if(btnElement) btnElement.classList.add('active');
+      applyFilters();
+    }
+
+    function handleSearch() { applyFilters(); }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      
+      let filtered = products.filter(p => p.category === activeCategory);
+
+      if (activeBrand !== 'all') {
+        filtered = filtered.filter(p => p.brand === activeBrand);
+      }
+
+      if (query) {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(query));
+      }
+
+      renderProducts(filtered);
+    }
 
     function renderProducts(items) {
       const grid = document.getElementById('productsGrid');
       grid.innerHTML = '';
+
+      if (items.length === 0) {
+        grid.innerHTML = `<div class="empty-state">لا توجد منتجات متوفرة في هذا القسم حالياً!</div>`;
+        return;
+      }
 
       items.forEach(p => {
         const isWish = wishlist.includes(p.id);
@@ -679,13 +890,12 @@
           <div class="product-card">
             ${p.badge ? `<div class="badge-tag">${p.badge}</div>` : ''}
             <button class="wishlist-btn ${isWish ? 'active' : ''}" onclick="toggleWishlist(${p.id})">♥</button>
-            <img src="${p.img}" class="product-image" alt="${p.name}">
+            <img src="${p.img}" class="product-image" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=60'">
             <div>
-              <div class="stock-tag">${p.stock}</div>
               <div class="product-title">${p.name}</div>
             </div>
             <div>
-              <div class="product-price">${p.price} ج.م</div>
+              <div class="product-price">${p.price.toFixed(2)} ج.م</div>
               <button class="btn-add" onclick="addToCart(${p.id})">إضافة للسلة 🛒</button>
             </div>
           </div>
@@ -699,23 +909,6 @@
       applyFilters();
     }
 
-    function filterProducts(brand) {
-      currentFilter = brand;
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      applyFilters();
-    }
-
-    function handleSearch() { applyFilters(); }
-
-    function applyFilters() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      let filtered = currentFilter === 'all' ? products : products.filter(p => p.brand === currentFilter);
-      if (query) filtered = filtered.filter(p => p.name.toLowerCase().includes(query));
-      renderProducts(filtered);
-    }
-
-    // Add To Cart + Cart Animation Trigger
     function addToCart(id) {
       const p = products.find(prod => prod.id === id);
       const cartItem = cart.find(item => item.id === id);
@@ -730,7 +923,7 @@
     function triggerCartAnimation() {
       const cartBtn = document.getElementById('openCart');
       cartBtn.classList.remove('bounce');
-      void cartBtn.offsetWidth; // Trigger reflow
+      void cartBtn.offsetWidth;
       cartBtn.classList.add('bounce');
     }
 
@@ -761,7 +954,7 @@
           <div class="cart-item">
             <div>
               <div style="font-weight:bold;">${item.name}</div>
-              <div style="font-size:0.85rem; color:var(--muted);">${item.price} ج.م</div>
+              <div style="font-size:0.85rem; color:var(--muted);">${item.price.toFixed(2)} ج.م</div>
             </div>
             <div class="qty-controls">
               <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
@@ -771,7 +964,7 @@
           </div>
         `;
       });
-      document.getElementById('cartTotal').innerText = `${total} ج.م`;
+      document.getElementById('cartTotal').innerText = `${total.toFixed(2)} ج.م`;
     }
 
     function sendToWhatsApp() {
@@ -781,18 +974,18 @@
       cart.forEach((item, i) => {
         const sub = item.price * item.qty;
         total += sub;
-        msg += `${i + 1}. ${item.name} × ${item.qty} = ${sub} ج.م\n`;
+        msg += `${i + 1}. ${item.name} × ${item.qty} = ${sub.toFixed(2)} ج.م\n`;
       });
-      msg += `\n*الإجمالي الكلي:* ${total} ج.م`;
+      msg += `\n*الإجمالي الكلي:* ${total.toFixed(2)} ج.م`;
       window.open(`https://wa.me/201010928213?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     // Live Ticker
     const tickerMessages = [
-      "الموقع من صنع المطور باسل محمد للتواصل معه اضغط على كلمه Baselاسفل الموقع",
-      "قام عميل من العاشر بشراء مسحوق أوكسي 4 كيلو!",
-      "تم طلب عرض برسيل جل للغسيل قبل قليل 📦",
-      "عميل جديد انضم واستفاد من خصم السلة 🎉"
+      "الموقع من صنع المطور باسل محمد للتواصل معه اضغط على كلمه Basel اسفل الموقع",
+      "قام عميل من القاهرة بشراء برسيل جل 4 لتر!",
+      "تم طلب شاور فريده 1.2 لتر قبل قليل 📦",
+      "عميل جديد انضم واستفاد من خصومات المتجر 🎉"
     ];
     let tickerIdx = 0;
     setInterval(() => {
@@ -803,11 +996,9 @@
       tickerIdx = (tickerIdx + 1) % tickerMessages.length;
     }, 7000);
 
-    // Dark/Light Theme with LocalStorage
+    // Theme Toggle
     const savedTheme = localStorage.getItem('taysir_theme');
-    if (savedTheme) {
-      document.body.setAttribute('data-theme', savedTheme);
-    }
+    if (savedTheme) document.body.setAttribute('data-theme', savedTheme);
 
     document.getElementById('themeToggle').addEventListener('click', () => {
       const body = document.body;
@@ -823,16 +1014,14 @@
 
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    // Close Modal when clicking outside
     window.onclick = function(event) {
       const modal = document.getElementById('cartModal');
-      if (event.target === modal) {
-        closeModal('cartModal');
-      }
+      if (event.target === modal) closeModal('cartModal');
     }
 
     window.addEventListener('DOMContentLoaded', () => { 
-      renderProducts(products); 
+      renderSubFilters();
+      applyFilters();
       updateCartUI();
     });
   </script>
